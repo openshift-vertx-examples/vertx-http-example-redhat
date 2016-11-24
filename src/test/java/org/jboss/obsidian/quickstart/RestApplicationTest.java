@@ -16,13 +16,67 @@
  */
 package org.jboss.obsidian.quickstart;
 
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.HttpClientRequest;
+import io.vertx.core.json.Json;
+import io.vertx.ext.unit.Async;
+import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.junit.VertxUnitRunner;
+import org.jboss.obsidian.quickstart.service.Greeting;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(VertxUnitRunner.class)
 public class RestApplicationTest {
 
+    Vertx vertx;
+
+    @Before
+    public void before() {
+        vertx = Vertx.vertx();
+        vertx.deployVerticle(new RestApplication());
+    }
+
+    @After
+    public void after(TestContext context) {
+        vertx.close(context.asyncAssertSuccess());
+    }
+
     @Test
-    public void callServiceTest() {
-        // TODO
+    public void callGreetingTest(TestContext context) {
+        // Send a request and get a response
+        HttpClient client = vertx.createHttpClient();
+        Async async = context.async();
+        HttpClientRequest req =  client.get(8080, "localhost", "/greeting", resp -> {
+            context.assertEquals(200, resp.statusCode());
+            resp.bodyHandler(body -> {
+                final Greeting greeting = Json.decodeValue(body.toString(), Greeting.class);
+                context.assertEquals("Hello, World!",greeting.getContent());
+            });
+            async.complete();
+        });
+        req.exceptionHandler(context::fail);
+        req.end();
+    }
+
+    @Test
+    public void callGreetingWithParamTest(TestContext context) {
+        // Send a request and get a response
+        HttpClient client = vertx.createHttpClient();
+        Async async = context.async();
+        HttpClientRequest req =  client.get(8080, "localhost", "/greeting?name=Charles", resp -> {
+            context.assertEquals(200, resp.statusCode());
+            resp.bodyHandler(body -> {
+                final Greeting greeting = Json.decodeValue(body.toString(), Greeting.class);
+                context.assertEquals("Hello, Charles!",greeting.getContent());
+            });
+            async.complete();
+        });
+        req.exceptionHandler(context::fail);
+        req.end();
     }
 
 }
