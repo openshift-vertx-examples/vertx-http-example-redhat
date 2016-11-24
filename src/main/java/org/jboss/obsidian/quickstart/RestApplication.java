@@ -16,12 +16,20 @@
  */
 package org.jboss.obsidian.quickstart;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
+import org.jboss.obsidian.quickstart.service.Greeting;
 
 public class RestApplication extends AbstractVerticle {
+
+	private static final String template = "Hello, %s!";
+	private final AtomicLong counter = new AtomicLong();
 
 	@Override
 	public void start(Future<Void> fut) {
@@ -35,6 +43,8 @@ public class RestApplication extends AbstractVerticle {
 					.putHeader("content-type", "text/html")
 					.end("<h1>Hello from my first Vert.x 3 application</h1>");
 		});
+
+		router.get("/greeting").handler(this::greeting);
 
 		// Create the HTTP server and pass the "accept" method to the request handler.
 		vertx
@@ -52,5 +62,15 @@ public class RestApplication extends AbstractVerticle {
 							}
 						}
 				);
+	}
+
+	private void greeting(RoutingContext routingContext) {
+		String name = routingContext.request().getParam("name");
+		if (name == null) {
+			name = "World";
+		}
+		routingContext.response()
+				.putHeader("content-type", "application/json; charset=utf-8")
+				.end(Json.encodePrettily(new Greeting(counter.incrementAndGet(),String.format(template, name))));
 	}
 }
