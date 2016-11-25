@@ -29,21 +29,22 @@ import org.jboss.obsidian.quickstart.service.Greeting;
 public class RestApplication extends AbstractVerticle {
 
 	private static final String template = "Hello, %s!";
-	private final AtomicLong counter = new AtomicLong();
+	private static Long counter = new Long(0);
 
 	@Override
 	public void start(Future<Void> fut) {
 		// Create a router object.
 		Router router = Router.router(vertx);
 
-		// Bind "/" to our hello message - so we are still compatible.
+		// Bind "/"
 		router.route("/").handler(routingContext -> {
 			HttpServerResponse response = routingContext.response();
 			response
 					.putHeader("content-type", "text/html")
-					.end("<h1>Hello from my first Vert.x 3 application</h1>");
+					.end("<h1>Hello from Eclipse Vert.x Rest application</h1>");
 		});
 
+		// Bind "/greeting" service
 		router.get("/greeting").handler(this::greeting);
 
 		// Create the HTTP server and pass the "accept" method to the request handler.
@@ -71,6 +72,6 @@ public class RestApplication extends AbstractVerticle {
 		}
 		routingContext.response()
 				.putHeader("content-type", "application/json; charset=utf-8")
-				.end(Json.encodePrettily(new Greeting(counter.incrementAndGet(),String.format(template, name))));
+				.end(Json.encodePrettily(new Greeting(counter++,String.format(template, name))));
 	}
 }
