@@ -29,7 +29,7 @@ import org.jboss.obsidian.quickstart.service.Greeting;
 public class RestApplication extends AbstractVerticle {
 
 	private static final String template = "Hello, %s!";
-	private static Long counter = new Long(0);
+	private static long counter = 1;
 
 	@Override
 	public void start(Future<Void> fut) {
