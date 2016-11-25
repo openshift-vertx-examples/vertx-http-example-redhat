@@ -182,19 +182,28 @@
 
   <profiles>
     <profile>
-      <id>redhat</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <tomcat-version>${tomcat.redhat.version}</tomcat-version>
-      </properties>
-    </profile>
-    <profile>
-      <id>community</id>
-      <properties>
-        <tomcat-version>${tomcat.community.version}</tomcat-version>
-      </properties>
+      <id>vertx-plugin</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.fabric8</groupId>
+            <artifactId>vertx-maven-plugin</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <configuration>
+              <verticle>${main.verticle}</verticle>
+              <launcher>io.vertx.core.Launcher</launcher>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>openshift</id>
