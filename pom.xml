@@ -88,30 +88,15 @@
       <groupId>io.fabric8</groupId>
       <artifactId>fabric8-arquillian</artifactId>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <!-- This dep generates this class error not found as the httpcomponents used by Fabric8 Assertion doesn't include it
-             Caused by: java.lang.NoClassDefFoundError: org/apache/http/ssl/TrustStrategy
-            at org.springframework.boot.test.web.client.TestRestTemplate.<init>(TestRestTemplate.java:127)
-            at org.springframework.boot.test.context.SpringBootTestContextCustomizer$TestRestTemplateFactory.setApplicationContext(SpringBootTestContextCustomizer.java:99)
-          -->
-          <groupId>org.apache.httpcomponents</groupId>
-          <artifactId>httpclient-osgi</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.0</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
@@ -128,9 +113,6 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <outputFile>
-                ${project.build.directory}/${project.artifactId}-${project.version}-fat.jar
-              </outputFile>
               <transformers>
                 <transformer
                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -139,26 +121,10 @@
                     <Main-Verticle>${main.verticle}</Main-Verticle>
                   </manifestEntries>
                 </transformer>
-                <transformer
-                    implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
-                </transformer>
               </transformers>
             </configuration>
           </execution>
         </executions>
-      </plugin>
-
-      <!-- Surefire Testing Plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19.1</version>
-        <configuration>
-          <excludes>
-            <exclude>**/OpenShiftIntegrationTest.java</exclude>
-          </excludes>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -180,21 +146,6 @@
   </repositories>
 
   <profiles>
-    <profile>
-      <id>redhat</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <tomcat-version>${tomcat.redhat.version}</tomcat-version>
-      </properties>
-    </profile>
-    <profile>
-      <id>community</id>
-      <properties>
-        <tomcat-version>${tomcat.community.version}</tomcat-version>
-      </properties>
-    </profile>
     <profile>
       <id>openshift</id>
       <properties>
