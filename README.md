@@ -34,6 +34,12 @@ curl http://localhost:8080/greeting
 curl http://localhost:8080/greeting -d name=Bruno
 ```
 
+# Launch using Vert.x maven plugin
+
+```
+mvn clean package -Pvertx-plugin
+```
+
 # OpenShift
 
 TODO

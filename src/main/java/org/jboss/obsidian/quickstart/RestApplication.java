@@ -39,7 +39,7 @@ public class RestApplication extends AbstractVerticle {
     router.route("/").handler(rc ->
         rc.response()
             .putHeader(CONTENT_TYPE, "text/html")
-            .end("<h1>Hello from my first Vert.x 3 application</h1>"));
+            .end("<h1>Hello from my first Eclipse Vert.x Rest application</h1>"));
 
     router.get("/greeting").handler(this::greeting);
 
@@ -61,6 +61,6 @@ public class RestApplication extends AbstractVerticle {
     }
     rc.response()
         .putHeader(CONTENT_TYPE, "application/json; charset=utf-8")
-        .end(Json.encode(new Greeting(++counter, String.format(template, name))));
+        .end(Json.encode(new Greeting(counter++, String.format(template, name))));
   }
 }
