@@ -36,8 +36,9 @@
     <vertx-version>3.3.3</vertx-version>
     <slf4j.version>1.7.21</slf4j.version>
 
-    <fabric8.maven.plugin.version>3.1.92</fabric8.maven.plugin.version>
+    <fabric8.maven.plugin.version>3.2.7</fabric8.maven.plugin.version>
     <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
+    <vertx-maven-plugin.version>0.1.2</vertx-maven-plugin.version>
 
     <main.verticle>org.jboss.obsidian.quickstart.RestApplication</main.verticle>
   </properties>
@@ -103,7 +104,7 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
-      <plugin>
+      <!--<plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.4.3</version>
         <executions>
@@ -124,6 +125,26 @@
                 </transformer>
               </transformers>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>-->
+      <!-- vert.x maven plugin to generate the fat-jar -->
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>vertx-maven-plugin</artifactId>
+        <version>${vertx-maven-plugin.version}</version>
+        <configuration>
+          <verticle>${main.verticle}</verticle>
+          <launcher>io.vertx.core.Launcher</launcher>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>vmp</id>
+            <phase>package</phase>
+            <goals>
+              <goal>package</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -148,30 +169,6 @@
 
   <profiles>
     <profile>
-      <id>vertx-plugin</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>io.fabric8</groupId>
-            <artifactId>vertx-maven-plugin</artifactId>
-            <version>0.1.2</version>
-            <configuration>
-              <verticle>${main.verticle}</verticle>
-              <launcher>io.vertx.core.Launcher</launcher>
-            </configuration>
-            <executions>
-              <execution>
-                <phase>package</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>openshift</id>
       <properties>
         <test.to.exclude/>
@@ -184,12 +181,30 @@
             <version>${fabric8.maven.plugin.version}</version>
             <executions>
               <execution>
+                <id>fmp</id>
                 <goals>
                   <goal>resource</goal>
+                  <goal>helm</goal>
                   <goal>build</goal>
                 </goals>
               </execution>
             </executions>
+            <configuration>
+              <generator>
+                <config>
+                  <java-exec>
+                    <mainClass>io.vertx.core.Launcher</mainClass>
+                  </java-exec>
+                </config>
+              </generator>
+              <resources>
+                <labels>
+                  <service>
+                    <expose>true</expose>
+                  </service>
+                </labels>
+              </resources>
+            </configuration>
           </plugin>
         </plugins>
       </build>
