@@ -27,7 +27,7 @@ import static io.fabric8.kubernetes.assertions.Assertions.assertThat;
 
 @RunWith(Arquillian.class)
 @RunAsClient
-public class OpenShiftIntegrationTest {
+public class OpenShiftIT {
 
     @ArquillianResource
     KubernetesClient client;

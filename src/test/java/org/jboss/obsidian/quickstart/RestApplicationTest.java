@@ -18,7 +18,6 @@ package org.jboss.obsidian.quickstart;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClient;
-import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.json.Json;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -29,54 +28,58 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(VertxUnitRunner.class)
 public class RestApplicationTest {
 
-    Vertx vertx;
+    private Vertx vertx;
+    private HttpClient client;
 
     @Before
-    public void before() {
+    public void before(TestContext context) {
         vertx = Vertx.vertx();
-        vertx.deployVerticle(new RestApplication());
+        vertx.exceptionHandler(context.exceptionHandler());
+        vertx.deployVerticle(RestApplication.class.getName(), context.asyncAssertSuccess());
+        client = vertx.createHttpClient();
     }
 
     @After
     public void after(TestContext context) {
+        client.close();
         vertx.close(context.asyncAssertSuccess());
     }
 
     @Test
     public void callGreetingTest(TestContext context) {
         // Send a request and get a response
-        HttpClient client = vertx.createHttpClient();
         Async async = context.async();
-        HttpClientRequest req =  client.get(8080, "localhost", "/greeting", resp -> {
-            context.assertEquals(200, resp.statusCode());
+        client.get(8080, "localhost", "/greeting", resp -> {
+            assertThat(resp.statusCode()).isEqualTo(200);
             resp.bodyHandler(body -> {
-                final Greeting greeting = Json.decodeValue(body.toString(), Greeting.class);
-                context.assertEquals("Hello, World!",greeting.getContent());
+                Greeting greeting = Json.decodeValue(body.toString(), Greeting.class);
+                assertThat(greeting.getContent()).isEqualTo("Hello, World!");
             });
             async.complete();
-        });
-        req.exceptionHandler(context::fail);
-        req.end();
+        })
+            .exceptionHandler(context::fail)
+            .end();
     }
 
     @Test
     public void callGreetingWithParamTest(TestContext context) {
         // Send a request and get a response
-        HttpClient client = vertx.createHttpClient();
         Async async = context.async();
-        HttpClientRequest req =  client.get(8080, "localhost", "/greeting?name=Charles", resp -> {
-            context.assertEquals(200, resp.statusCode());
+        client.get(8080, "localhost", "/greeting?name=Charles", resp -> {
+            assertThat(resp.statusCode()).isEqualTo(200);
             resp.bodyHandler(body -> {
-                final Greeting greeting = Json.decodeValue(body.toString(), Greeting.class);
-                context.assertEquals("Hello, Charles!",greeting.getContent());
+                Greeting greeting = Json.decodeValue(body.toString(), Greeting.class);
+                assertThat(greeting.getContent()).isEqualTo("Hello, World!");
             });
             async.complete();
-        });
-        req.exceptionHandler(context::fail);
-        req.end();
+        })
+            .exceptionHandler(context::fail)
+            .end();
     }
 
 }
