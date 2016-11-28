@@ -42,5 +42,21 @@ mvn clean package vertx:run
 
 # OpenShift
 
-TODO
+- To build 
+
+```
+mvn clean package fabric8:build -openshift
+```
+- And to run/launch the pod
+
+```
+mvn fabric8:run -Popenshift
+```
+
+- Access the service using curl or httpie tool
+
+```
+http $(minishift service vertx-rest --url=true)/greeting
+curl $(minishift service vertx-rest --url=true)/greeting
+```
 
