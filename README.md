@@ -62,8 +62,8 @@ curl $(minishift service vertx-rest --url=true)/greeting
 
 # OpenShift Online
 
-- Connect to the OpenShift Online machine (e.g. https://console.dev-preview-int.openshift.com/console/command-line) to get the token to be used with the oc client to be authenticated and access the project
-- Open a terminal and execute this command using the oc client where you will replace the MYTOKEN With the one that you can get from the Web Console
+- Connect to the OpenShift Online machine (e.g. https://console.dev-preview-int.openshift.com/console/command-line) to get the token to be used by the oc client to be authenticated and access the project
+- Open a terminal and execute this command using the oc client where you will replace the MYTOKEN with the one that you can get from the Web Console
 ```
 oc login https://api.dev-preview-int.openshift.com --token=MYTOKEN
 ```
