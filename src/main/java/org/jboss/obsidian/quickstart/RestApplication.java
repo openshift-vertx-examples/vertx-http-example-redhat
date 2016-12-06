@@ -35,12 +35,6 @@ public class RestApplication extends AbstractVerticle {
     // Create a router object.
     Router router = Router.router(vertx);
 
-    // Bind "/" to our hello message - so we are still compatible.
-    router.route("/").handler(rc ->
-        rc.response()
-            .putHeader(CONTENT_TYPE, "text/html")
-            .end("<h1>Hello from my first Eclipse Vert.x Rest application</h1>"));
-
     router.get("/greeting").handler(this::greeting);
 
     // Create the HTTP server and pass the "accept" method to the request handler.
@@ -61,6 +55,6 @@ public class RestApplication extends AbstractVerticle {
     }
     rc.response()
         .putHeader(CONTENT_TYPE, "application/json; charset=utf-8")
-        .end(Json.encode(new Greeting(counter++, String.format(template, name))));
+        .end(Json.encode(new Greeting(++counter, String.format(template, name))));
   }
 }
