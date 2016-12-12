@@ -37,10 +37,11 @@
     <slf4j.version>1.7.21</slf4j.version>
 
     <fabric8.maven.plugin.version>3.2.7</fabric8.maven.plugin.version>
-    <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-    <vertx-maven-plugin.version>0.1.2</vertx-maven-plugin.version>
+    <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+    <maven-failsafe-plugin.version>2.19.1</maven-failsafe-plugin.version>
+    <vertx-maven-plugin.version>1.0.0</vertx-maven-plugin.version>
 
-    <main.verticle>org.jboss.obsidian.quickstart.RestApplication</main.verticle>
+    <vertx.verticle>org.jboss.obsidian.quickstart.RestApplication</vertx.verticle>
   </properties>
 
   <dependencyManagement>
@@ -94,6 +95,13 @@
   </dependencies>
 
   <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -104,45 +112,16 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
-      <!--<plugin>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.4.3</version>
-        <executions>
-          <execution>
-            <id>package-fat-jar</id>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <transformers>
-                <transformer
-                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <manifestEntries>
-                    <Main-Class>io.vertx.core.Launcher</Main-Class>
-                    <Main-Verticle>${main.verticle}</Main-Verticle>
-                  </manifestEntries>
-                </transformer>
-              </transformers>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>-->
       <!-- vert.x maven plugin to generate the fat-jar -->
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>vertx-maven-plugin</artifactId>
         <version>${vertx-maven-plugin.version}</version>
-        <configuration>
-          <verticle>${main.verticle}</verticle>
-          <launcher>io.vertx.core.Launcher</launcher>
-        </configuration>
-
         <executions>
           <execution>
             <id>vmp</id>
-            <phase>package</phase>
             <goals>
+              <goal>initialize</goal>
               <goal>package</goal>
             </goals>
           </execution>
@@ -189,6 +168,19 @@
                 </labels>
               </resources>
             </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>${maven-failsafe-plugin.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
