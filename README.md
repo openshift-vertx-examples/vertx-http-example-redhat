@@ -2,10 +2,12 @@
 
 This project exposes a simple REST endpoint where the service greeting is available at this address http://hostname:port/greeting and returns a json Greeting message
 
+```
 {
     "content": "Hello, World!",
     "id": 1
 }
+```
 
 The id of the message is incremented for each request. To customize the message, you can pass as parameter the name of the person that you want to send your greeting.
 
@@ -22,7 +24,7 @@ mvn clean package
 To start the Eclipse Vert.x application, execute this Java command within a terminal
 
 ```
-java -jar target/vertx-rest-1.0-SNAPSHOT-fat.jar run org.jboss.obsidian.quickstart.RestApplication
+java -jar target/vertx-rest-1.0-SNAPSHOT-fat.jar
 ```
 
 and execute some HTTP Get requests to get a response from the Rest endpoint.
@@ -37,7 +39,7 @@ curl http://localhost:8080/greeting?name=Bruno
 # Launch using Vert.x maven plugin
 
 ```
-mvn clean package vertx:run
+mvn clean vertx:run
 ```
 
 # OpenShift
@@ -45,7 +47,7 @@ mvn clean package vertx:run
 - To build & deploy
 
 ```
-mvn clean package fabric8:deploy -Popenshift
+mvn clean fabric8:deploy -Popenshift
 ```
 - And to run/launch the pod
 
@@ -69,7 +71,7 @@ oc login https://api.dev-preview-int.openshift.com --token=MYTOKEN
 ```
 - Use the Fabric8 Maven Plugin to launch the S2I process on the OpenShift Online machine
 ```
-mvn clean package fabric8:deploy -Popenshift
+mvn clean fabric8:deploy -Popenshift
 ```
 - And to run/launch the pod
 ```
