@@ -24,7 +24,7 @@ mvn clean package
 To start the Eclipse Vert.x application, execute this Java command within a terminal
 
 ```
-java -jar target/vertx-rest-1.0-SNAPSHOT-fat.jar
+java -jar target/vertx-rest-1.0-SNAPSHOT-fat.jar run org.obsidiantoaster.quickstart.RestApplication
 ```
 
 and execute some HTTP Get requests to get a response from the Rest endpoint.
@@ -85,7 +85,7 @@ oc expose service/vertx-rest --port=8080
 ```
 oc get route/vertx-rest
 NAME         HOST/PORT                                                    PATH      SERVICE           TERMINATION   LABELS
-vertx-rest   vertx-rest-obsidian.1ec1.dev-preview-int.openshiftapps.com             vertx-rest:8080                 expose=true,group=org.jboss.obsidian.quickstart,project=vertx-rest,provider=fabric8,version=1.0-SNAPSHOT
+vertx-rest   vertx-rest-obsidian.1ec1.dev-preview-int.openshiftapps.com             vertx-rest:8080                 expose=true,group=org.obsidiantoaster.quickstart,project=vertx-rest,provider=fabric8,version=1.0-SNAPSHOT
 ```
 - Use the Host/Port address to access the REST endpoint
 ```
