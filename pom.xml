@@ -41,7 +41,7 @@
     <maven-failsafe-plugin.version>2.19.1</maven-failsafe-plugin.version>
     <vertx-maven-plugin.version>1.0.0</vertx-maven-plugin.version>
 
-    <vertx.verticle>org.jboss.obsidian.quickstart.RestApplication</vertx.verticle>
+    <vertx.verticle>org.obsidiantoaster.quickstart.RestApplication</vertx.verticle>
   </properties>
 
   <dependencyManagement>

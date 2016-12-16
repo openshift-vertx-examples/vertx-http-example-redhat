@@ -14,27 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.obsidian.quickstart;
+package org.obsidiantoaster.quickstart.service;
 
-import io.fabric8.kubernetes.client.KubernetesClient;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+public class Greeting {
 
-import static io.fabric8.kubernetes.assertions.Assertions.assertThat;
+    private final long id;
+    private final String content;
 
-@RunWith(Arquillian.class)
-@RunAsClient
-public class OpenShiftIT {
-
-    @ArquillianResource
-    KubernetesClient client;
-
-    @Test
-    public void testAppProvisionsRunningPods() throws Exception {
-        assertThat(client).deployments().pods().isPodReadyForPeriod();
+    public Greeting() {
+        this.id = 0;
+        this.content = null;
     }
 
+    public Greeting(long id, String content) {
+        this.id = id;
+        this.content = content;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }
