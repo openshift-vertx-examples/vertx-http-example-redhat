@@ -33,7 +33,7 @@ mvn clean package
 1. Execute the following apache maven command:
 
     ```
-    java -jar target/vertx-rest-1.0-SNAPSHOT-fat.jar run org.obsidiantoaster.quickstart.RestApplication
+    java -jar target/vertx-rest-1.0-SNAPSHOT-fat.jar
     ```
 
 1. Execute the following HTTP Get requests to get a response from the Rest endpoint:
@@ -49,7 +49,9 @@ mvn clean package
 
 1. Execute the following command:
 
-# OpenShift
+    ```bash
+    mvn clean vertx:run
+    ```
 
 # Build and Deploy Using OpenShift
 
