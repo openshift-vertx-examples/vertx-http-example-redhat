@@ -55,9 +55,7 @@ mvn clean vertx:run
 
 # Build and Deploy Using OpenShift
 
-1. Deploy the application.
-
-- To build, deploy & launch the pod running the Eclipse Vert.x application
+1. To build, deploy & launch the pod running the Eclipse Vert.x application
 
 ```
 mvn clean fabric8:deploy -Popenshift
