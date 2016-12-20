@@ -24,7 +24,7 @@ mvn clean package
 To start the Eclipse Vert.x application, execute this Java command within a terminal
 
 ```
-java -jar target/vertx-rest-1.0-SNAPSHOT-fat.jar
+java -jar target/vertx-rest-1.0.0-SNAPSHOT.jar
 ```
 
 and execute some HTTP Get requests to get a response from the Rest endpoint.
@@ -39,7 +39,7 @@ curl http://localhost:8080/greeting?name=Bruno
 # Launch using Vert.x maven plugin
 
 ```
-mvn clean vertx:run
+mvn vertx:run
 ```
 
 # OpenShift
