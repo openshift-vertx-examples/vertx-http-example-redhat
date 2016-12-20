@@ -55,7 +55,6 @@ mvn clean vertx:run
 
 # Build and Deploy Using OpenShift
 
-<<<<<<< HEAD
 1. Deploy the application.
 
 - To build, deploy & launch the pod running the Eclipse Vert.x application
