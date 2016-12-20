@@ -32,18 +32,18 @@ mvn clean package
 
 1. Execute the following apache maven command:
 
-```
-java -jar target/vertx-rest-1.0.0-SNAPSHOT.jar
-```
+    ```
+    java -jar target/vertx-rest-1.0.0-SNAPSHOT.jar
+    ```
 
 1. Execute the following HTTP Get requests to get a response from the Rest endpoint:
 
-```
-http http://localhost:8080/greeting
-http http://localhost:8080/greeting name==Charles
-curl http://localhost:8080/greeting
-curl http://localhost:8080/greeting?name=Bruno
-```
+    ```
+    http http://localhost:8080/greeting
+    http http://localhost:8080/greeting name==Charles
+    curl http://localhost:8080/greeting
+    curl http://localhost:8080/greeting?name=Bruno
+    ```
 
 # Launch using Vert.x maven plugin
 
@@ -57,15 +57,15 @@ mvn clean vertx:run
 
 1. To build, deploy & launch the pod running the Eclipse Vert.x application
 
-```
-mvn clean fabric8:deploy -Popenshift
-```
+    ```
+    mvn clean fabric8:deploy -Popenshift
+    ```
 1. Access the service using curl or http tool.
 
-```
-http $(minishift service vertx-rest --url=true)/greeting
-curl $(minishift service vertx-rest --url=true)/greeting
-```
+    ```
+    http $(minishift service vertx-rest --url=true)/greeting
+    curl $(minishift service vertx-rest --url=true)/greeting
+    ```
 
 # OpenShift Online
 
