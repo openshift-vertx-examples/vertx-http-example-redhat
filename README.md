@@ -10,10 +10,9 @@ This project exposes a simple REST endpoint where the service greeting is availa
 ```
 
 The id of the message is incremented for each request. To customize the message, you can pass as parameter the name of the person that you want to send your greeting.
-You can perform this task in three different ways:
+You can perform this task in 2 different ways:
 
 1. Build and launch using vert.x or the vert.x maven plug-in.
-1. Build and deploy using OpenShift.
 1. Build, deploy, and authenticate using OpenShift Online.
 
 The id of the message is incremented for each request. To customize the message, you can pass as parameter the name of the person that you want to send your greeting.
@@ -68,20 +67,6 @@ mvn clean package
 ```bash
 mvn clean vertx:run
 ```
-
-# Build and Deploy Using OpenShift
-
-1. To build, deploy & launch the pod running the Eclipse Vert.x application
-
-    ```
-    mvn clean fabric8:deploy -Popenshift -DskipTests
-    ```
-1. Access the service using curl or http tool.
-
-    ```
-    http $(minishift service vertx-rest --url=true)/greeting
-    curl $(minishift service vertx-rest --url=true)/greeting
-    ```
 
 # OpenShift Online
 
