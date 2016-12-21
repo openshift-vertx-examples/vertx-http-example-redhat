@@ -58,7 +58,7 @@ mvn clean vertx:run
 1. To build, deploy & launch the pod running the Eclipse Vert.x application
 
     ```
-    mvn clean fabric8:deploy -Popenshift
+    mvn clean fabric8:deploy -Popenshift -DskipTests
     ```
 1. Access the service using curl or http tool.
 
@@ -78,7 +78,7 @@ mvn clean vertx:run
 1. Use the Fabric8 Maven Plugin to launch the S2I process on the OpenShift Online machine and start the pod.
 
     ```
-    mvn clean package fabric8:deploy -Popenshift
+    mvn clean package fabric8:deploy -Popenshift -DskipTests
     ```
 1. Use the Host/Port address exposed by the route to access the REST endpoint
     ```
