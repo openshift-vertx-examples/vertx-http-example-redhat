@@ -194,9 +194,9 @@
   </profiles>
 
   <scm>
-    <connection>scm:git:git://github.com/obsidian-toaster/quick_rest_vertx.git</connection>
-    <developerConnection>scm:git:git@github.com:obsidian-toaster/quick_rest_vertx.git</developerConnection>
-    <url>http://github.com/obsidian-toaster/quick_rest_vertx</url>
+    <connection>scm:git:git://github.com/obsidian-toaster-quickstarts/quick_rest_vertx.git</connection>
+    <developerConnection>scm:git:git@github.com:obsidian-toaster-quickstarts/quick_rest_vertx.git</developerConnection>
+    <url>http://github.com/obsidian-toaster-quickstarts/quick_rest_vertx</url>
     <tag>HEAD</tag>
   </scm>
 
