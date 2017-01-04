@@ -65,7 +65,7 @@ mvn clean package
 1. Execute the following command:
 
 ```bash
-mvn clean vertx:run
+mvn compile vertx:run
 ```
 
 # OpenShift Online
