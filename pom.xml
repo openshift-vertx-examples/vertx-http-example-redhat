@@ -28,7 +28,7 @@
   <packaging>jar</packaging>
 
   <name>rest</name>
-  <description>Obsidian :: Quickstart :: Vertx - Rest</description>
+  <description>Vertx - Rest</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
