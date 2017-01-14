@@ -48,7 +48,7 @@ mvn clean package
 1. Execute the following apache maven command:
 
     ```
-    java -jar target/vertx-rest-1.0.0-SNAPSHOT.jar
+    java -jar target/${artifactId}-${version}.jar
     ```
 
 1. Execute the following HTTP Get requests to get a response from the Rest endpoint:
@@ -83,9 +83,9 @@ mvn compile vertx:run
     ```
 1. Use the Host/Port address exposed by the route to access the REST endpoint
     ```
-    oc get route/vertx-rest
+    oc get route/${artifactId}
     NAME         HOST/PORT                                                    PATH      SERVICE           TERMINATION   LABELS
-    vertx-rest   <HOST_PORT_ADDRESS>             vertx-rest:8080                 expose=true,group=org.jboss.obsidian.quickstart,project=vertx-rest,provider=fabric8,version=1.0-SNAPSHOT
+    ${artifactId}   <HOST_PORT_ADDRESS>             ${artifactId}:8080                 expose=true,group=org.jboss.obsidian.quickstart,project=${artifactId},provider=fabric8,version=${version}
     ```
 1. Call the endpoint using curl or httpie tool
     ```
