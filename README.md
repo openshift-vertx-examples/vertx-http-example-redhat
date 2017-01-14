@@ -82,6 +82,7 @@ mvn compile vertx:run
     mvn clean package fabric8:deploy -Popenshift -DskipTests
     ```
 1. Use the Host/Port address exposed by the route to access the REST endpoint
+
     ```
     oc get route/${artifactId}
     NAME         HOST/PORT                                                    PATH      SERVICE           TERMINATION   LABELS
