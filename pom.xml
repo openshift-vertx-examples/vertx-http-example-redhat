@@ -206,10 +206,10 @@
     <url>http://github.com/obsidian-toaster-quickstarts/quick_rest_vertx</url>
     <tag>HEAD</tag>
     -->
-    <connection>${scm.git.connection}</connection>
-    <developerConnection>${scm.dev.connection}</developerConnection>
-    <url>${scm.url}</url>
-    <tag>${scm.tag}</tag>
+    <connection>${obs.scm.git.connection}</connection>
+    <developerConnection>${obs.scm.dev.connection}</developerConnection>
+    <url>${obs.scm.url}</url>
+    <tag>${obs.scm.tag}</tag>
   </scm>
 
 </project>
