@@ -33,6 +33,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.scm.connection/>
+    <project.developer.connection/>
+    <project.scm.url/>
     <java.version>1.8</java.version>
 
     <fabric8.version>2.2.176</fabric8.version>
