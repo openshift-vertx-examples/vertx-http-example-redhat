@@ -209,6 +209,7 @@
     <connection>${project.scm.connection}</connection>
     <developerConnection>${project.developer.connection}</developerConnection>
     <url>${project.scm.url}</url>
+    <tag>${project.scm.tag}</tag>
   </scm>
 
 </project>
