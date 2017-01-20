@@ -33,9 +33,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!--<project.scm.connection/>
-    <project.developer.connection/>
-    <project.scm.url/>-->
     <java.version>1.8</java.version>
 
     <fabric8.version>2.2.176</fabric8.version>
@@ -198,18 +195,4 @@
       </build>
     </profile>
   </profiles>
-
-  <scm>
-    <!--
-    <connection>scm:git:git://github.com/obsidian-toaster-quickstarts/quick_rest_vertx.git</connection>
-    <developerConnection>scm:git:git@github.com:obsidian-toaster-quickstarts/quick_rest_vertx.git</developerConnection>
-    <url>http://github.com/obsidian-toaster-quickstarts/quick_rest_vertx</url>
-    <tag>HEAD</tag>
-    -->
-    <connection>${obs.scm.git.connection}</connection>
-    <developerConnection>${obs.scm.dev.connection}</developerConnection>
-    <url>${obs.scm.url}</url>
-    <tag>${obs.scm.tag}</tag>
-  </scm>
-
 </project>
