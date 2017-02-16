@@ -17,7 +17,6 @@
 package org.obsidiantoaster.quickstart;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -31,7 +30,7 @@ public class RestApplication extends AbstractVerticle {
   private long counter;
 
   @Override
-  public void start(Future done) {
+  public void start() {
     // Create a router object.
     Router router = Router.router(vertx);
 
@@ -44,8 +43,8 @@ public class RestApplication extends AbstractVerticle {
         .listen(
             // Retrieve the port from the configuration,
             // default to 8080.
-            config().getInteger("http.port", 8080),
-            done.completer());
+                config().getInteger("http.port", 8080));
+
   }
 
   private void greeting(RoutingContext rc) {
