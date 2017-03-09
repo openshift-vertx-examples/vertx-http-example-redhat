@@ -12,7 +12,7 @@ This project exposes a simple REST endpoint where the service greeting is availa
 The id of the message is incremented for each request. To customize the message, you can pass as parameter the name of the person that you want to send your greeting.
 You can perform this task in 2 different ways:
 
-1. Build and launch using vert.x or the vert.x maven plug-in.
+1. Build and launch using vert.x or the Vert.x maven plug-in.
 1. Build, deploy, and authenticate using OpenShift Online.
 
 The id of the message is incremented for each request. To customize the message, you can pass as parameter the name of the person that you want to send your greeting.
@@ -24,8 +24,8 @@ To get started with these quickstarts you'll need the following prerequisites:
 Name | Description | Version
 --- | --- | ---
 [java][1] | Java JDK | 8
-[maven][2] | Apache Maven | 3.2.x 
-[oc][3] | OpenShift Client | v3.3.x
+[maven][2] | Apache Maven | 3.3.x 
+[oc][3] | OpenShift Client | v1.4.x
 [git][4] | Git version management | 2.x 
 
 [1]: http://www.oracle.com/technetwork/java/javase/downloads/
@@ -99,4 +99,13 @@ mvn compile vertx:run
     curl http://<HOST_PORT_ADDRESS>/greeting name==Bruno
     ```
 
+# Running integration tests
 
+You need to be connected to an OpenShift instance (Openshift Online or Minishift). You also need to select an 
+existing project.
+
+Then, run integration tests using:
+
+```
+mvn clean verify -Popenshift -Popenshift-it
+```
