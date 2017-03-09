@@ -12,9 +12,7 @@ import io.fabric8.openshift.client.OpenShiftClient;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -29,43 +27,55 @@ public class OpenShiftTestAssistant {
     private final OpenShiftClient client;
     private final String project;
     private String applicationName;
-    private NamespaceVisitFromServerGetDeleteRecreateApplicable<List<HasMetadata>, Boolean> application;
+    private Map<String, NamespaceVisitFromServerGetDeleteRecreateApplicable<List<HasMetadata>, Boolean>> created
+        = new LinkedHashMap<>();
 
     public OpenShiftTestAssistant() {
         client = new DefaultKubernetesClient().adapt(OpenShiftClient.class);
         project = client.getNamespace();
     }
 
+    public List<? extends HasMetadata> deploy(String name, File template) throws IOException {
+        try (FileInputStream fis = new FileInputStream(template)) {
+            NamespaceVisitFromServerGetDeleteRecreateApplicable<List<HasMetadata>, Boolean> declarations
+                = client.load(fis);
+            List<HasMetadata> entities = declarations.createOrReplace();
+            created.put(name, declarations);
+            System.out.println(name + " deployed, " + entities.size() + " object(s) created.");
+
+            return entities;
+        }
+    }
+
     public String deployApplication() throws IOException {
         applicationName = System.getProperty("app.name");
-        File list = new File("target/classes/META-INF/fabric8/openshift.yml");
-        try (FileInputStream fis = new FileInputStream(list)) {
-            application = client.adapt(OpenShiftClient.class).load(fis);
-            List<HasMetadata> entities = application.createOrReplace();
-            
-            Optional<String> first = entities.stream()
-                .filter(hm -> hm instanceof DeploymentConfig)
-                .map(hm -> (DeploymentConfig) hm)
-                .map(dc -> dc.getMetadata().getName()).findFirst();
-            if (applicationName == null && first.isPresent()) {
-                applicationName = first.get();
-            }
 
-            System.out.println("Application deployed, " + entities.size() + " object(s) created.");
+        List<? extends HasMetadata> entities
+            = deploy("application", new File("target/classes/META-INF/fabric8/openshift.yml"));
 
-            Route route = client.adapt(OpenShiftClient.class).routes()
-                .inNamespace(project).withName(applicationName).get();
-            assertThat(route).isNotNull();
-            RestAssured.baseURI = "http://" + Objects.requireNonNull(route).getSpec().getHost();
-            System.out.println("Route url: " + RestAssured.baseURI);
+        Optional<String> first = entities.stream()
+            .filter(hm -> hm instanceof DeploymentConfig)
+            .map(hm -> (DeploymentConfig) hm)
+            .map(dc -> dc.getMetadata().getName()).findFirst();
+        if (applicationName == null && first.isPresent()) {
+            applicationName = first.get();
         }
+
+        Route route = client.adapt(OpenShiftClient.class).routes()
+            .inNamespace(project).withName(applicationName).get();
+        assertThat(route).isNotNull();
+        RestAssured.baseURI = "http://" + Objects.requireNonNull(route).getSpec().getHost();
+        System.out.println("Route url: " + RestAssured.baseURI);
 
         return applicationName;
     }
 
     public void cleanup() {
-        if (application != null) {
-            application.delete();
+        List<String> keys = new ArrayList<>(created.keySet());
+        Collections.reverse(keys);
+        for (String key : keys) {
+            System.out.println("Deleting " + key);
+            created.remove(key).delete();
         }
     }
 
@@ -83,6 +93,18 @@ public class OpenShiftTestAssistant {
 
     private boolean isRunning(Pod pod) {
         return "running".equalsIgnoreCase(pod.getStatus().getPhase());
+    }
+
+    public OpenShiftClient client() {
+        return client;
+    }
+
+    public String project() {
+        return project;
+    }
+
+    public String applicationName() {
+        return applicationName;
     }
 
 }

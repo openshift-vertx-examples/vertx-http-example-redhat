@@ -32,10 +32,11 @@ public class OpenShiftIT {
     @Test
     public void testThatWeAreReady() throws Exception {
         assistant.awaitApplicationReadinessOrFail();
-        await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> {
-            Response response = get();
-            return response.getStatusCode() < 500;
-        });
+        // Check that the route is served.
+        await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> get().getStatusCode() < 500);
+        await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> get("/greeting")
+            .getStatusCode() < 500);
+
     }
 
     @Test
