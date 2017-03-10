@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,16 +17,15 @@
 package org.obsidiantoaster.quickstart;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpClient;
-import io.vertx.core.json.Json;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
-import org.obsidiantoaster.quickstart.service.Greeting;
+import io.vertx.ext.web.client.WebClient;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.obsidiantoaster.quickstart.service.Greeting;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,19 +33,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RestApplicationTest {
 
     private Vertx vertx;
-    private HttpClient client;
+    private WebClient client;
 
     @Before
     public void before(TestContext context) {
         vertx = Vertx.vertx();
         vertx.exceptionHandler(context.exceptionHandler());
         vertx.deployVerticle(RestApplication.class.getName(), context.asyncAssertSuccess());
-        client = vertx.createHttpClient();
+        client = WebClient.create(vertx);
     }
 
     @After
     public void after(TestContext context) {
-        client.close();
         vertx.close(context.asyncAssertSuccess());
     }
 
@@ -54,32 +52,28 @@ public class RestApplicationTest {
     public void callGreetingTest(TestContext context) {
         // Send a request and get a response
         Async async = context.async();
-        client.get(8080, "localhost", "/greeting", resp -> {
-            assertThat(resp.statusCode()).isEqualTo(200);
-            resp.bodyHandler(body -> {
-                Greeting greeting = Json.decodeValue(body.toString(), Greeting.class);
+        client.get(8080, "localhost", "/greeting")
+            .send(resp -> {
+                assertThat(resp.succeeded()).isTrue();
+                assertThat(resp.result().statusCode()).isEqualTo(200);
+                Greeting greeting = resp.result().bodyAsJson(Greeting.class);
                 assertThat(greeting.getContent()).isEqualTo("Hello, World!");
+                async.complete();
             });
-            async.complete();
-        })
-            .exceptionHandler(context::fail)
-            .end();
     }
 
     @Test
     public void callGreetingWithParamTest(TestContext context) {
         // Send a request and get a response
         Async async = context.async();
-        client.get(8080, "localhost", "/greeting?name=Charles", resp -> {
-            assertThat(resp.statusCode()).isEqualTo(200);
-            resp.bodyHandler(body -> {
-                Greeting greeting = Json.decodeValue(body.toString(), Greeting.class);
-                assertThat(greeting.getContent()).isEqualTo("Hello, World!");
+        client.get(8080, "localhost", "/greeting?name=Charles")
+            .send(resp -> {
+                    assertThat(resp.succeeded()).isTrue();
+                    assertThat(resp.result().statusCode()).isEqualTo(200);
+                    Greeting greeting = resp.result().bodyAsJson(Greeting.class);
+                    assertThat(greeting.getContent()).isEqualTo("Hello, Charles!");
+                    async.complete();
             });
-            async.complete();
-        })
-            .exceptionHandler(context::fail)
-            .end();
     }
 
 }
