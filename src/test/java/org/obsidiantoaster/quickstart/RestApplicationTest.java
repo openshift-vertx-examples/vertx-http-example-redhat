@@ -25,7 +25,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.obsidiantoaster.quickstart.service.Greeting;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,12 +51,12 @@ public class RestApplicationTest {
     public void callGreetingTest(TestContext context) {
         // Send a request and get a response
         Async async = context.async();
-        client.get(8080, "localhost", "/greeting")
+        client.get(8080, "localhost", "/api/greeting")
             .send(resp -> {
                 assertThat(resp.succeeded()).isTrue();
                 assertThat(resp.result().statusCode()).isEqualTo(200);
-                Greeting greeting = resp.result().bodyAsJson(Greeting.class);
-                assertThat(greeting.getContent()).isEqualTo("Hello, World!");
+                String content = resp.result().bodyAsJsonObject().getString("content");
+                assertThat(content).isEqualTo("Hello, World!");
                 async.complete();
             });
     }
@@ -66,12 +65,12 @@ public class RestApplicationTest {
     public void callGreetingWithParamTest(TestContext context) {
         // Send a request and get a response
         Async async = context.async();
-        client.get(8080, "localhost", "/greeting?name=Charles")
+        client.get(8080, "localhost", "/api/greeting?name=Charles")
             .send(resp -> {
                     assertThat(resp.succeeded()).isTrue();
                     assertThat(resp.result().statusCode()).isEqualTo(200);
-                    Greeting greeting = resp.result().bodyAsJson(Greeting.class);
-                    assertThat(greeting.getContent()).isEqualTo("Hello, Charles!");
+                    String content = resp.result().bodyAsJsonObject().getString("content");
+                    assertThat(content).isEqualTo("Hello, Charles!");
                     async.complete();
             });
     }

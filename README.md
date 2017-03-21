@@ -1,25 +1,17 @@
 # Introduction
 
-This project exposes a simple REST endpoint where the service greeting is available at this address http://hostname:port/greeting and returns a json Greeting message
+This project exposes a simple HTTP endpoint exposing a _greeting_ service. The service is available at this address: 
+_http://hostname:port/api/greeting_ and returns a JSON response containing the _greeting_ message.
 
 ```json
 {
-    "content": "Hello, World!",
-    "id": 1
+    "content": "Hello, World!"
 }
 ```
 
-The id of the message is incremented for each request. To customize the message, you can pass as parameter the name of the person that you want to send your greeting.
-You can perform this task in 2 different ways:
-
-1. Build and launch using vert.x or the Vert.x maven plug-in.
-1. Build, deploy, and authenticate using OpenShift Online.
-
-The id of the message is incremented for each request. To customize the message, you can pass as parameter the name of the person that you want to send your greeting.
-
 # Prerequisites
 
-To get started with these quickstarts you'll need the following prerequisites:
+To get started with this quickstart you'll need the following prerequisites:
 
 Name | Description | Version
 --- | --- | ---
@@ -33,71 +25,118 @@ Name | Description | Version
 [3]: https://docs.openshift.com/enterprise/3.2/cli_reference/get_started_cli.html
 [4]: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
-In order to build and deploy this project, you must have an account on an OpenShift Online (OSO): https://console.dev-preview-int.openshift.com/ instance.
+In order to build and deploy this project on OpenShift, you need either:
 
-# Build the Project
+* a local OpenShift instance such as Minishift,
+* account on an OpenShift Online (OSO) instance, such as https://console.dev-preview-int.openshift.com/ instance.
 
-1. Execute the following apache maven command:
+# Deployment instructions
+
+To build and deploy this quickstart you can:
+
+1. run it locally (non in OpenShift),
+2. deploy it to OpenShift using Apache Maven,
+3. deploy it to OpenShift using a Jenkins pipeline.
+ 
+For the approach 2 and 3 you need to be logged in to your OpenShift instance.
+ 
+**If you are using Minishift**
+
+1. Login to your OpenShift instance using:
+
+```bash
+oc login https://192.168.64.12:8443 -u developer -p developer
+```
+
+2. Open your browser to https://192.168.64.12:8443/console/, and log in using _developer/developer_.
+
+3. Check that you have a project. If `oc project` returns an error, create a project with:
+
+```bash
+oc new-project myproject
+```
+
+**If your are using OpenShift Online**
+  
+1. Go to [OpenShift Online](https://console.dev-preview-int.openshift.com/console/command-line) to get the token used 
+by the `oc` client for authentication and project access.
+2. On the oc client, execute the following command to replace $MYTOKEN with the one from the Web Console:
+     
+```bash
+oc login https://api.dev-preview-int.openshift.com --token=$MYTOKEN
+```
+
+3. Check that you have a project. If `oc project` returns an error, create a project with:
+   
+```bash
+oc new-project myproject
+```
+
+## Local run
+
+To run this quickstart locally:
+
+1. Execute the following Apache Maven command:
 
 ```bash
 mvn clean package
 ```
 
-# Launch and Test
+The application is packaged as a _fat-jar_, _i.e._ a _jar_ containing all the required dependencies to run the 
+application. So the resulting artifact is a standalone application.
 
-1. Execute the following apache maven command:
-
-    ```
-    java -jar target/${artifactId}-${version}.jar
-    ```
-
-1. Execute the following HTTP Get requests to get a response from the Rest endpoint:
-
-    ```
-    http http://localhost:8080/greeting
-    http http://localhost:8080/greeting name==Charles
-    curl http://localhost:8080/greeting
-    curl http://localhost:8080/greeting?name=Bruno
-    ```
-
-# Launch using Vert.x maven plugin
-
-1. Execute the following command:
-
+2. Run the application using:
+ 
 ```bash
-mvn compile vertx:run
+java -jar target/vertx-rest-1.0.0-SNAPSHOT.jar
+```
+ 
+Alternatively, you can run it in _dev_ mode using `mvn compile vertx:run`.
+ 
+3. Access the application using a browser: http://localhost:8080.
+ 
+Alternatively, you can invoke the _greeting_ service directly using curl or httpie:
+    
+```bash
+curl http://localhost:8080/api/greeting
+curl http://localhost:8080/api/greeting?name=Bruno
+http http://localhost:8080/api/greeting
+http http://localhost:8080/api/greeting name==Charles
 ```
 
-# OpenShift Online
+## Deploy the application to OpenShift using Maven
 
-1. Go to [OpenShift Online](https://console.dev-preview-int.openshift.com/console/command-line) to get the token used by the oc client for authentication and project access.
-1. On the oc client, execute the following command to replace MYTOKEN with the one from the Web Console:
-    ```
-    oc login https://api.dev-preview-int.openshift.com --token=MYTOKEN
-    ```
+To deploy the application using Maven, launch:
 
-1. Use the Fabric8 Maven Plugin to launch the S2I process on the OpenShift Online machine and start the pod.
+```bash
+mvn fabric8:deploy -Popenshift
+```
 
-    ```
-    mvn clean package fabric8:deploy -Popenshift -DskipTests
-    ```
-1. Use the Host/Port address exposed by the route to access the REST endpoint
+This command builds and deploys the application to the OpenShift instance on which you are logged in.
 
-    ```
-    oc get route/${artifactId}
-    NAME         HOST/PORT                                                    PATH      SERVICE           TERMINATION   LABELS
-    ${artifactId}   <HOST_PORT_ADDRESS>             ${artifactId}:8080                 expose=true,group=org.jboss.obsidian.quickstart,project=${artifactId},provider=fabric8,version=${version}
-    ```
-1. Call the endpoint using curl or httpie tool
-    ```
-    http http://<HOST_PORT_ADDRESS>/greeting
-    http http://<HOST_PORT_ADDRESS>/greeting name==Bruno
+Once deployed, you can access the application using the _application URL_. Retrieve it using:
+
+```bash
+$ oc get route vertx-rest -o jsonpath={$.spec.host}
+vertx-rest-myproject.192.168.64.12.nip.io                                                                                                                              
+```
+
+Then, open your browser to the displayed url: http://vertx-rest-myproject.192.168.64.12.nip.io.                                                                         
+
+Alternatively, you can invoke the _greeting_ service directly using curl or httpie:
     
-    or 
-    
-    curl http://<HOST_PORT_ADDRESS>/greeting
-    curl http://<HOST_PORT_ADDRESS>/greeting name==Bruno
-    ```
+```bash
+curl http://vertx-rest-myproject.192.168.64.12.nip.io/api/greeting
+curl http://vertx-rest-myproject.192.168.64.12.nip.io/api/greeting?name=Bruno
+http http://vertx-rest-myproject.192.168.64.12.nip.io/api/greeting
+http http://vertx-rest-myproject.192.168.64.12.nip.io/api/greeting name==Charles
+```
+
+If you get a `503` response, it means that the application is not ready yet.
+
+## Deploy the application to OpenShift using Jenkins Pipeline
+
+
 
 # Running integration tests
 

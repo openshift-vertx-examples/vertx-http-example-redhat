@@ -18,24 +18,24 @@ package org.obsidiantoaster.quickstart;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
-import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import org.obsidiantoaster.quickstart.service.Greeting;
+import io.vertx.ext.web.handler.StaticHandler;
 
 import static io.vertx.core.http.HttpHeaders.CONTENT_TYPE;
 
 public class RestApplication extends AbstractVerticle {
 
   private static final String template = "Hello, %s!";
-  private long counter;
 
   @Override
   public void start(Future<Void> future) {
     // Create a router object.
     Router router = Router.router(vertx);
 
-    router.get("/greeting").handler(this::greeting);
+    router.get("/api/greeting").handler(this::greeting);
+    router.get("/").handler(StaticHandler.create());
 
     // Create the HTTP server and pass the "accept" method to the request handler.
     vertx
@@ -52,9 +52,12 @@ public class RestApplication extends AbstractVerticle {
     if (name == null) {
       name = "World";
     }
-    
+
+    JsonObject response = new JsonObject()
+        .put("content", String.format(template, name));
+
     rc.response()
         .putHeader(CONTENT_TYPE, "application/json; charset=utf-8")
-        .end(Json.encode(new Greeting(++counter, String.format(template, name))));
+        .end(response.encodePrettily());
   }
 }
