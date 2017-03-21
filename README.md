@@ -144,18 +144,10 @@ To trigger this built:
 1. Apply the OpenShift template:
 
 ```bash
-oc apply -f src/openshift/openshift-pipeline-template.yml
+oc new-app -f src/openshift/openshift-pipeline-template.yml
 ```
 
-This command defines the pipelines and the objects created by the application.
-
-2. Create a new application from the template: 
-
-```bash
-oc new-app --template vertx-http-pipeline 
-```
-
-3. Trigger the pipeline build:
+2. Trigger the pipeline build:
 
 ```bash
 oc start-build vertx-http
