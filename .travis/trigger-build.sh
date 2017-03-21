@@ -1,7 +1,7 @@
 #!/bin/bash
 body='{
 "request": {
-  "message":"Build triggered because of quick_rest_vertx change",
+  "message":"Build triggered because of quick_http_vertx change",
   "branch":"master"
 }}'
 

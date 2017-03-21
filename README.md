@@ -36,7 +36,7 @@ To build and deploy this quickstart you can:
 
 1. run it locally (non in OpenShift),
 2. deploy it to OpenShift using Apache Maven,
-3. deploy it to OpenShift using a Jenkins pipeline.
+3. deploy it to OpenShift using a pipeline.
  
 For the approach 2 and 3 you need to be logged in to your OpenShift instance.
  
@@ -88,7 +88,7 @@ application. So the resulting artifact is a standalone application.
 2. Run the application using:
  
 ```bash
-java -jar target/vertx-rest-1.0.0-SNAPSHOT.jar
+java -jar target/vertx-http-1.0.0-SNAPSHOT.jar
 ```
  
 Alternatively, you can run it in _dev_ mode using `mvn compile vertx:run`.
@@ -117,31 +117,77 @@ This command builds and deploys the application to the OpenShift instance on whi
 Once deployed, you can access the application using the _application URL_. Retrieve it using:
 
 ```bash
-$ oc get route vertx-rest -o jsonpath={$.spec.host}
-vertx-rest-myproject.192.168.64.12.nip.io                                                                                                                              
+$ oc get route vertx-http -o jsonpath={$.spec.host}
+vertx-http-myproject.192.168.64.12.nip.io                                                                                                                              
 ```
 
-Then, open your browser to the displayed url: http://vertx-rest-myproject.192.168.64.12.nip.io.                                                                         
+Then, open your browser to the displayed url: http://vertx-http-myproject.192.168.64.12.nip.io.                                                                         
 
 Alternatively, you can invoke the _greeting_ service directly using curl or httpie:
     
 ```bash
-curl http://vertx-rest-myproject.192.168.64.12.nip.io/api/greeting
-curl http://vertx-rest-myproject.192.168.64.12.nip.io/api/greeting?name=Bruno
-http http://vertx-rest-myproject.192.168.64.12.nip.io/api/greeting
-http http://vertx-rest-myproject.192.168.64.12.nip.io/api/greeting name==Charles
+curl http://vertx-http-myproject.192.168.64.12.nip.io/api/greeting
+curl http://vertx-http-myproject.192.168.64.12.nip.io/api/greeting?name=Bruno
+http http://vertx-http-myproject.192.168.64.12.nip.io/api/greeting
+http http://vertx-http-myproject.192.168.64.12.nip.io/api/greeting name==Charles
 ```
 
 If you get a `503` response, it means that the application is not ready yet.
 
-## Deploy the application to OpenShift using Jenkins Pipeline
+## Deploy the application to OpenShift using a pipeline
 
+When deployed with a _pipeline_ the application is built from the sources (from a git repository) by a continuous 
+integration server (Jenkins) running in OpenShift.
+
+To trigger this built:
+
+1. Apply the OpenShift template:
+
+```bash
+oc apply -f src/openshift/openshift-pipeline-template.yml
+```
+
+This command defines the pipelines and the objects created by the application.
+
+2. Create a new application from the template: 
+
+```bash
+oc new-app --template vertx-http-pipeline 
+```
+
+3. Trigger the pipeline build:
+
+```bash
+oc start-build vertx-http
+```
+
+With the sequence of command, you have deployed a Jenkins instance in your OpenShift project, define the build 
+pipeline of the application and trigger a first build of the application.
+
+Once the build is complete, you can access the application using the _application URL_. Retrieve this url using:
+
+```bash
+oc get route vertx-http -o jsonpath={$.spec.host}
+```
+
+Then, open your browser to the displayed url. For instance, http://vertx-http-myproject.192.168.64.12.nip.io.           
+                                                              
+Alternatively, you can invoke the _greeting_ service directly using curl or httpie:
+    
+```bash
+curl http://vertx-http-myproject.192.168.64.12.nip.io/api/greeting
+curl http://vertx-http-myproject.192.168.64.12.nip.io/api/greeting?name=Bruno
+http http://vertx-http-myproject.192.168.64.12.nip.io/api/greeting
+http http://vertx-http-myproject.192.168.64.12.nip.io/api/greeting name==Charles
+```
+
+If you get a `503` response, it means that the application is not ready yet.
 
 
 # Running integration tests
 
-You need to be connected to an OpenShift instance (Openshift Online or Minishift). You also need to select an 
-existing project.
+The quickstart also contains a set of integration tests. You need to be connected to an OpenShift instance (Openshift 
+Online or Minishift) to run them. You also need to select an existing project.
 
 Then, run integration tests using:
 

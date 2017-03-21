@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(VertxUnitRunner.class)
-public class RestApplicationTest {
+public class HttpApplicationTest {
 
     private Vertx vertx;
     private WebClient client;
@@ -38,7 +38,7 @@ public class RestApplicationTest {
     public void before(TestContext context) {
         vertx = Vertx.vertx();
         vertx.exceptionHandler(context.exceptionHandler());
-        vertx.deployVerticle(RestApplication.class.getName(), context.asyncAssertSuccess());
+        vertx.deployVerticle(HttpApplication.class.getName(), context.asyncAssertSuccess());
         client = WebClient.create(vertx);
     }
 

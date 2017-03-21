@@ -1,7 +1,9 @@
 package org.obsidiantoaster.quickstart;
 
-import com.jayway.restassured.response.Response;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.net.MalformedURLException;

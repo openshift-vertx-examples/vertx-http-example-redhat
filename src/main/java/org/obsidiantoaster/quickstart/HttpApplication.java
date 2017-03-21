@@ -25,7 +25,7 @@ import io.vertx.ext.web.handler.StaticHandler;
 
 import static io.vertx.core.http.HttpHeaders.CONTENT_TYPE;
 
-public class RestApplication extends AbstractVerticle {
+public class HttpApplication extends AbstractVerticle {
 
   private static final String template = "Hello, %s!";
 
