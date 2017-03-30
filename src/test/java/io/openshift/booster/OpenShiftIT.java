@@ -1,4 +1,4 @@
-package org.obsidiantoaster.quickstart;
+package io.openshift.booster;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

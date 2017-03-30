@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.obsidiantoaster.quickstart;
+package io.openshift.booster;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.unit.Async;

@@ -23,9 +23,9 @@
     <artifactId>jboss-parent</artifactId>
     <version>21</version>
   </parent>
-  <groupId>org.obsidiantoaster.quickstart</groupId>
-  <artifactId>vertx-http</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <groupId>io.openshift.booster</groupId>
+  <artifactId>http-vertx</artifactId>
+  <version>1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Vert.x - HTTP</name>
@@ -43,7 +43,7 @@
     <maven-failsafe-plugin.version>2.19.1</maven-failsafe-plugin.version>
     <vertx-maven-plugin.version>1.0.6</vertx-maven-plugin.version>
 
-    <vertx.verticle>org.obsidiantoaster.quickstart.HttpApplication</vertx.verticle>
+    <vertx.verticle>io.openshift.booster.HttpApplication</vertx.verticle>
   </properties>
 
   <dependencyManagement>
@@ -111,7 +111,6 @@
     </dependency>
   </dependencies>
 
-  
 
   <build>
     <plugins>
