@@ -43,7 +43,12 @@ public class HttpApplication extends AbstractVerticle {
         .requestHandler(router::accept)
         .listen(
             // Retrieve the port from the configuration, default to 8080.
-            config().getInteger("http.port", 8080), ar -> future.handle(ar.mapEmpty()));
+            config().getInteger("http.port", 8080), ar -> {
+              if (ar.succeeded()) {
+                System.out.println("Server starter on port " + ar.result().actualPort());
+              }
+              future.handle(ar.mapEmpty());
+            });
 
   }
 
