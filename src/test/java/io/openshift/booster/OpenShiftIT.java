@@ -26,7 +26,11 @@ public class OpenShiftIT {
 
     @AfterClass
     public static void cleanup() {
-        assistant.cleanup();
+        try {
+            assistant.cleanup();
+        } catch (Exception e) {
+            // Ignore it.
+        }
     }
 
     @Test
