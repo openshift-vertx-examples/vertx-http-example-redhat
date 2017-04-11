@@ -1,5 +1,6 @@
 package io.openshift.booster;
 
+import io.openshift.booster.test.OpenShiftTestAssistant;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -13,9 +14,6 @@ import static com.jayway.awaitility.Awaitility.await;
 import static com.jayway.restassured.RestAssured.get;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-/**
- * @author <a href="http://escoffier.me">Clement Escoffier</a>
- */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OpenShiftIT {
 

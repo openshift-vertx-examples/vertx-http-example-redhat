@@ -21,7 +21,7 @@
   <parent>
     <groupId>io.openshift</groupId>
     <artifactId>booster-parent</artifactId>
-    <version>2</version>
+    <version>3</version>
   </parent>
   <groupId>io.openshift.booster</groupId>
   <artifactId>http-vertx</artifactId>
@@ -86,12 +86,6 @@
       <groupId>com.jayway.restassured</groupId>
       <artifactId>rest-assured</artifactId>
       <version>2.9.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.fabric8</groupId>
-      <artifactId>openshift-client</artifactId>
-      <version>1.4.33</version>
       <scope>test</scope>
     </dependency>
     <dependency>
