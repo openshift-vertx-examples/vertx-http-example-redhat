@@ -1,1 +1,1 @@
-http://appdev.openshift.io/mission-http-api-vertx.html
+http://appdev.openshift.io/docs/mission-http-api-vertx.html
