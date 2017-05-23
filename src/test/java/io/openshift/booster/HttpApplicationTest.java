@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.openshift.booster.HttpApplication.template;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(VertxUnitRunner.class)
@@ -37,10 +38,10 @@ public class HttpApplicationTest {
         Async async = context.async();
         client.get(8080, "localhost", "/api/greeting")
             .send(resp -> {
-                assertThat(resp.succeeded()).isTrue();
-                assertThat(resp.result().statusCode()).isEqualTo(200);
+                context.assertTrue(resp.succeeded());
+                context.assertEquals(resp.result().statusCode(), 200);
                 String content = resp.result().bodyAsJsonObject().getString("content");
-                assertThat(content).isEqualTo("Hello, World!");
+                context.assertEquals(content, String.format(template, "World"));
                 async.complete();
             });
     }
@@ -51,11 +52,11 @@ public class HttpApplicationTest {
         Async async = context.async();
         client.get(8080, "localhost", "/api/greeting?name=Charles")
             .send(resp -> {
-                    assertThat(resp.succeeded()).isTrue();
-                    assertThat(resp.result().statusCode()).isEqualTo(200);
-                    String content = resp.result().bodyAsJsonObject().getString("content");
-                    assertThat(content).isEqualTo("Hello, Charles!");
-                    async.complete();
+                context.assertTrue(resp.succeeded());
+                context.assertEquals(resp.result().statusCode(), 200);
+                String content = resp.result().bodyAsJsonObject().getString("content");
+                context.assertEquals(content, String.format(template, "Charles"));
+                async.complete();
             });
     }
 
