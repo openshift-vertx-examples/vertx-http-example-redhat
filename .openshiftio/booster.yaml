@@ -1,2 +1,7 @@
 name: Vert.x HTTP Booster
 description: Runs a Vert.x HTTP application
+versions:
+  - id: community
+    name: Eclipse Vert.x
+  - id: redhat
+    name: Redhat version of Eclipse Vert.x
