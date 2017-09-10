@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.openshift</groupId>
     <artifactId>booster-parent</artifactId>
-    <version>8</version>
+    <version>9</version>
   </parent>
   <groupId>io.openshift.booster</groupId>
   <artifactId>http-vertx</artifactId>
@@ -122,6 +122,9 @@
             </executions>
             <configuration>
               <enricher>
+                <excludes>
+                  <exclude>f8-maven-scm</exclude>
+                </excludes>
                 <config>
                   <vertx-health-check>
                     <path>/</path>
