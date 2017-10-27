@@ -17,7 +17,7 @@
 
   <properties>
     <vertx.version>3.4.2.redhat-5</vertx.version>
-    <vertx-maven-plugin.version>1.0.9</vertx-maven-plugin.version>
+    <vertx-maven-plugin.version>1.0.13</vertx-maven-plugin.version>
     <vertx.verticle>io.openshift.booster.HttpApplication</vertx.verticle>
   </properties>
 
@@ -29,13 +29,6 @@
         <version>${vertx.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.arquillian.cube</groupId>
-        <artifactId>arquillian-cube-bom</artifactId>
-        <version>${arquillian-cube.version}</version>
-        <scope>import</scope>
-        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -80,10 +73,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.jayway.awaitility</groupId>
+      <groupId>org.awaitility</groupId>
       <artifactId>awaitility</artifactId>
-      <version>1.7.0</version>
-      <scope>test</scope>
+      <version>3.0.0</version>
     </dependency>
 
     <dependency>
