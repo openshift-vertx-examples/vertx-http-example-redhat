@@ -26,7 +26,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class OpenShiftIT {
     private String project;
 
-    private final String applicationName = "http-vertx";
+    private final String applicationName = System.getProperty("app.name");
 
     @ArquillianResource
     private OpenShiftClient client;
@@ -34,7 +34,7 @@ public class OpenShiftIT {
     @ArquillianResource
     private Session session;
 
-    @RouteURL(applicationName)
+    @RouteURL("${app.name}")
     private URL route;
 
     @Before
