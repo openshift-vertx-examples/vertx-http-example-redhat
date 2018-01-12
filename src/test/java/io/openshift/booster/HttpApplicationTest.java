@@ -1,6 +1,8 @@
 package io.openshift.booster;
 
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -15,6 +17,8 @@ import static io.openshift.booster.HttpApplication.template;
 @RunWith(VertxUnitRunner.class)
 public class HttpApplicationTest {
 
+    private static final int PORT = 8081;
+
     private Vertx vertx;
     private WebClient client;
 
@@ -22,7 +26,9 @@ public class HttpApplicationTest {
     public void before(TestContext context) {
         vertx = Vertx.vertx();
         vertx.exceptionHandler(context.exceptionHandler());
-        vertx.deployVerticle(HttpApplication.class.getName(), context.asyncAssertSuccess());
+        vertx.deployVerticle(HttpApplication.class.getName(),
+            new DeploymentOptions().setConfig(new JsonObject().put("http.port", PORT)),
+            context.asyncAssertSuccess());
         client = WebClient.create(vertx);
     }
 
@@ -35,7 +41,7 @@ public class HttpApplicationTest {
     public void callGreetingTest(TestContext context) {
         // Send a request and get a response
         Async async = context.async();
-        client.get(8080, "localhost", "/api/greeting")
+        client.get(PORT, "localhost", "/api/greeting")
             .send(resp -> {
                 context.assertTrue(resp.succeeded());
                 context.assertEquals(resp.result().statusCode(), 200);
@@ -49,7 +55,7 @@ public class HttpApplicationTest {
     public void callGreetingWithParamTest(TestContext context) {
         // Send a request and get a response
         Async async = context.async();
-        client.get(8080, "localhost", "/api/greeting?name=Charles")
+        client.get(PORT, "localhost", "/api/greeting?name=Charles")
             .send(resp -> {
                 context.assertTrue(resp.succeeded());
                 context.assertEquals(resp.result().statusCode(), 200);
