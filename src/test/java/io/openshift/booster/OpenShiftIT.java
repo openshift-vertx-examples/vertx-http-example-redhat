@@ -1,8 +1,8 @@
 package io.openshift.booster;
 
-import com.jayway.restassured.RestAssured;
-import io.fabric8.kubernetes.api.model.Pod;
-import io.fabric8.openshift.client.OpenShiftClient;
+import io.fabric8.kubernetes.api.model.v3_1.Pod;
+import io.fabric8.openshift.clnt.v3_1.OpenShiftClient;
+import io.restassured.RestAssured;
 import org.arquillian.cube.kubernetes.api.Session;
 import org.arquillian.cube.openshift.impl.enricher.AwaitRoute;
 import org.arquillian.cube.openshift.impl.enricher.RouteURL;
@@ -12,15 +12,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static com.jayway.awaitility.Awaitility.await;
-import static com.jayway.restassured.RestAssured.get;
 import static io.openshift.booster.HttpApplication.template;
+import static io.restassured.RestAssured.get;
+import static org.awaitility.Awaitility.await;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 @RunWith(Arquillian.class)
@@ -46,7 +45,7 @@ public class OpenShiftIT {
     }
 
     @Test
-    public void testThatWeAreReady() throws Exception {
+    public void testThatWeAreReady() {
         await().atMost(5, TimeUnit.MINUTES).until(() -> {
                 List<Pod> list = client.pods().inNamespace(project).list().getItems();
                 return list.stream()
@@ -62,7 +61,7 @@ public class OpenShiftIT {
     }
 
     @Test
-    public void testThatWeServeAsExpected() throws MalformedURLException {
+    public void testThatWeServeAsExpected() {
         get("/api/greeting").then().body("content", equalTo(String.format(template, "World")));
         get("/api/greeting?name=vert.x").then().body("content", equalTo(String.format(template, "vert.x")));
     }
