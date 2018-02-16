@@ -79,13 +79,6 @@
       <version>1.1.12.Final</version>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>io.fabric8</groupId>
-      <artifactId>openshift-client</artifactId>
-      <version>1.4.34</version>
-      <scope>test</scope>
-    </dependency>
     
     <dependency>
       <groupId>org.arquillian.cube</groupId>
@@ -97,6 +90,13 @@
           <groupId>io.undertow</groupId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>io.fabric8</groupId>
+      <artifactId>openshift-client</artifactId>
+      <version>1.4.34</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
