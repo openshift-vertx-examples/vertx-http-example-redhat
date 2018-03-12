@@ -98,7 +98,7 @@ objects:
       expose: "true"
       app: http-vertx
       provider: fabric8
-      version: "10"
+      version: 11-SNAPSHOT
       group: io.openshift.booster
     name: http-vertx
   spec:
@@ -117,11 +117,11 @@ objects:
     annotations:
       fabric8.io/iconUrl: img/icons/vertx.svg
       fabric8.io/git-branch: master
-      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=10
+      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=11-SNAPSHOT
     labels:
       app: http-vertx
       provider: fabric8
-      version: "10"
+      version: 11-SNAPSHOT
       group: io.openshift.booster
     name: http-vertx
   spec:
@@ -140,11 +140,11 @@ objects:
         annotations:
           fabric8.io/iconUrl: img/icons/vertx.svg
           fabric8.io/git-branch: master
-          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=10
+          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=11-SNAPSHOT
         labels:
           app: http-vertx
           provider: fabric8
-          version: "10"
+          version: 11-SNAPSHOT
           group: io.openshift.booster
       spec:
         containers:
@@ -188,7 +188,7 @@ objects:
     labels:
       app: http-vertx
       provider: fabric8
-      version: "10"
+      version: 11-SNAPSHOT
       group: io.openshift.booster
     name: http-vertx
   spec:
