@@ -16,7 +16,7 @@
   <description>Exposes an HTTP API using Vert.x</description>
 
   <properties>
-    <vertx.version>3.5.1.redhat-004</vertx.version>
+    <vertx.version>3.5.3.redhat-00001</vertx.version>
     <vertx-maven-plugin.version>1.0.15</vertx-maven-plugin.version>
     <vertx.verticle>io.openshift.booster.HttpApplication</vertx.verticle>
   </properties>
