@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-source openshift.sh
+source .openshiftio/openshift.sh
 
 if [ ! -d ".openshiftio" ]; then
   warning "The script expects the .openshiftio directory to exist"
