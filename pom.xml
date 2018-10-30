@@ -9,7 +9,7 @@
   </parent>
   <groupId>io.openshift.booster</groupId>
   <artifactId>http-vertx</artifactId>
-  <version>18-SNAPSHOT</version>
+  <version>18</version>
   <packaging>jar</packaging>
 
   <name>Vert.x - HTTP</name>
