@@ -17,7 +17,7 @@
 
   <properties>
     <vertx.version>3.5.4.redhat-00002</vertx.version>
-    <vertx-maven-plugin.version>1.0.17</vertx-maven-plugin.version>
+    <vertx-maven-plugin.version>1.0.18</vertx-maven-plugin.version>
     <vertx.verticle>io.openshift.booster.HttpApplication</vertx.verticle>
   </properties>
 
