@@ -6,6 +6,14 @@ metadata:
     description: This templates creates a simple Vert.x application serving HTTP requests.
     tags: instant-app
 parameters:
+- name: SUFFIX_NAME
+  description: The suffix name for the template objects
+  displayName: Suffix name
+  value: ''
+- name: RELEASE_VERSION
+  description: The release version number of application
+  displayName: Release version
+  value: 1.0.0
 - name: SOURCE_REPOSITORY_URL
   description: The source URL for the application
   displayName: Source URL
@@ -31,9 +39,10 @@ objects:
 - apiVersion: v1
   kind: ImageStream
   metadata:
-    name: http-vertx
+    name: http-vertx${SUFFIX_NAME}
     labels:
       booster: http-vertx
+      version: ${RELEASE_VERSION}
   spec: {}
 
 - apiVersion: v1
@@ -52,14 +61,15 @@ objects:
 - apiVersion: v1
   kind: BuildConfig
   metadata:
-    name: http-vertx
+    name: http-vertx-s2i${SUFFIX_NAME}
     labels:
       booster: http-vertx
+      version: ${RELEASE_VERSION}
   spec:
     output:
       to:
         kind: ImageStreamTag
-        name: http-vertx:latest
+        name: 'http-vertx${SUFFIX_NAME}:${RELEASE_VERSION}'
     source:
       git:
         uri: ${SOURCE_REPOSITORY_URL}
@@ -97,7 +107,9 @@ objects:
     labels:
       app: http-vertx
       group: io.openshift.booster
-    name: http-vertx
+      version: ${RELEASE_VERSION}
+      expose: 'true'
+    name: http-vertx${SUFFIX_NAME}
   spec:
     ports:
     - name: http
@@ -114,7 +126,8 @@ objects:
     labels:
       app: http-vertx
       group: io.openshift.booster
-    name: http-vertx
+      version: ${RELEASE_VERSION}
+    name: http-vertx${SUFFIX_NAME}
   spec:
     replicas: 1
     selector:
@@ -125,6 +138,7 @@ objects:
         labels:
           app: http-vertx
           group: io.openshift.booster
+          version: ${RELEASE_VERSION}
       spec:
         containers:
         - env:
@@ -132,7 +146,7 @@ objects:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
-          image: http-vertx:latest
+          image: ''
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -167,7 +181,7 @@ objects:
         - vertx
         from:
           kind: ImageStreamTag
-          name: http-vertx:latest
+          name: 'http-vertx${SUFFIX_NAME}:${RELEASE_VERSION}'
       type: ImageChange
 
 - apiVersion: route.openshift.io/v1
@@ -176,10 +190,11 @@ objects:
     labels:
       app: http-vertx
       group: io.openshift.booster
-    name: http-vertx
+      version: ${RELEASE_VERSION}
+    name: http-vertx${SUFFIX_NAME}
   spec:
     port:
       targetPort: 8080
     to:
       kind: Service
-      name: http-vertx
+      name: http-vertx${SUFFIX_NAME}
