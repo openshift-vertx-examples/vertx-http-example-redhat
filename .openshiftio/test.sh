@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 set -e
 
-source .openshiftio/openshift.sh
-
 if [ ! -d ".openshiftio" ]; then
   warning "The script expects the .openshiftio directory to exist"
   exit 1
 fi
+
+source .openshiftio/openshift.sh
+
+if [ -z "$1" ]; then
+  ORG="openshiftio-vertx-boosters"
+else
+  ORG=$1
+fi
+
+REPO="https://github.com/$ORG/vertx-http-booster"
+echo -e "\n${YELLOW}Using source repository: $REPO ...\n${NC}"
 
 # cleanup
 oc delete build --all
@@ -31,7 +40,7 @@ oc delete template --all
 oc apply -f .openshiftio/application.yaml
 
 # Create the application
-oc new-app --template=vertx-http-booster -p SOURCE_REPOSITORY_URL=https://github.com/openshiftio-vertx-boosters/vertx-http-booster-redhat
+oc new-app --template=vertx-http-booster -p SOURCE_REPOSITORY_URL=$REPO
 
 # wait for pod to be ready
 waitForPodState "http-vertx" "Running"
