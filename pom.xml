@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.openshift.booster</groupId>
   <artifactId>http-vertx</artifactId>
-  <version>21-SNAPSHOT</version>
+  <version>21</version>
   <packaging>jar</packaging>
 
   <name>Vert.x - HTTP</name>
