@@ -1,4 +1,4 @@
-package io.openshift.example;
+package io.openshift.booster;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.openshift.example.HttpApplication.template;
+import static io.openshift.booster.HttpApplication.template;
 
 @RunWith(VertxUnitRunner.class)
 public class HttpApplicationTest {

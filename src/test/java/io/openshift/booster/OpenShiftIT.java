@@ -1,4 +1,4 @@
-package io.openshift.example;
+package io.openshift.booster;
 
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.openshift.client.OpenShiftClient;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static io.openshift.example.HttpApplication.template;
+import static io.openshift.booster.HttpApplication.template;
 import static io.restassured.RestAssured.get;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.core.IsEqual.equalTo;
