@@ -1,4 +1,4 @@
-package io.openshift.example;
+package io.openshift.booster;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
