@@ -11,7 +11,7 @@
   <description>Exposes an HTTP API using Vert.x</description>
 
   <properties>
-    <vertx.version>3.8.5.redhat-00005</vertx.version>
+    <vertx.version>3.9.0.redhat-00008</vertx.version>
     <vertx-maven-plugin.version>1.0.22</vertx-maven-plugin.version>
     <vertx.verticle>io.openshift.example.HttpApplication</vertx.verticle>
     
@@ -145,9 +145,9 @@
                   <exclude>f8-maven-scm</exclude>
                 </excludes>
                 <config>
-                  <vertx-health-check>
-                    <path>/</path>
-                  </vertx-health-check>
+                  <f8-healthcheck-vertx>
+                    <path>/health</path>
+                  </f8-healthcheck-vertx>
                 </config>
               </enricher>
             </configuration>
