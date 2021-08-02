@@ -1,4 +1,4 @@
-https://appdev.openshift.io/docs/vertx-runtime.html#mission-rest-http-vertx
+https://appdev.openshift.io/docs/vertx-runtime.html#example-rest-http-vertx
 
 ## How to Build
 You can build this project with this maven command:
