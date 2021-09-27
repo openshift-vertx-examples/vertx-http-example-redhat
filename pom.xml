@@ -12,7 +12,7 @@
 
   <properties>
     <vertx.version>3.9.1.redhat-00001</vertx.version>
-    <vertx-maven-plugin.version>1.0.24</vertx-maven-plugin.version>
+    <vertx-maven-plugin.version>1.0.25</vertx-maven-plugin.version>
     <vertx.verticle>io.openshift.example.HttpApplication</vertx.verticle>
     
     <jkube.version>1.3.0</jkube.version>
